@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({
 
       setTimeout(() => {
         dispatch(setCurrentQuestion());
-      }, 3000);
+      }, 1500);
     }
   };
 

@@ -106,3 +106,14 @@
   background-color: #f1392c;
   color: black;
 }
+
+.locked {
+  cursor: default;
+  background-color: #8f8f8f;
+  color: white;
+}
+
+.disabled:hover {
+  transform: none;
+  cursor: default;
+}

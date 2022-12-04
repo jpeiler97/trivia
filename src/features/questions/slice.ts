@@ -68,6 +68,8 @@ export const questionsSlice = createSlice({
     },
     endGame: (state) => {
       state.gameOver = true;
+      state.questions = INIT_QUESTIONS;
+      state.questionIndex = 0;
     },
     selectAnswer: (state, action: { payload: number }) => {
       const question = state.questions[state.questionIndex];

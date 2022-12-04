@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import Button from "./Components/button";
 import QuestionContainer from "./Components/questionContainer";
@@ -12,6 +12,12 @@ function App() {
     useAppSelector((state) => state.questions);
 
   const timerRef = useRef<NodeJS.Timer | null>(null);
+
+  useEffect(() => {
+    if (gameOver) {
+      if (timerRef.current) clearInterval(timerRef.current);
+    }
+  }, [gameOver]);
 
   const parseTimeRemaining = (e: Date) => {
     const total =
@@ -61,7 +67,11 @@ function App() {
   return (
     <div className="App">
       <div className="trivia-container">
-        <Button label="Start" onClick={() => clearTimer(getDeadTime())} />
+        {gameStarted && !gameOver ? (
+          <Button label="Give Up" onClick={() => dispatch(endGame())} />
+        ) : (
+          <Button label="Start" onClick={() => clearTimer(getDeadTime())} />
+        )}
         <div className="timer">{timer}</div>
         <div className="timer">
           Score: {score}/{questions.length}
