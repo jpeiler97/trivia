@@ -89,3 +89,16 @@
 .animated:hover {
   transform: translateX(20px);
 }
+
+.correct {
+  background-color: #54e45d;
+  color: black;
+}
+.correct:hover {
+  background-color: #54e45d;
+  color: black;
+}
+.incorrect {
+  background-color: #f1392c;
+  color: black;
+}

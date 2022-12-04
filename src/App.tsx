@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import Button from "./Components/button";
 import QuestionContainer from "./Components/questionContainer";

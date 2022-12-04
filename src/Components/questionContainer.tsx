@@ -6,7 +6,7 @@ type QuestionProps = {
   question: {
     text: string;
     number: string | number;
-    answers: { text: string }[];
+    answers: { text: string; correct?: boolean }[];
   };
 };
 
