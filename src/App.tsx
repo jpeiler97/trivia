@@ -13,6 +13,7 @@ const questions = [
       },
       {
         text: "General Kenobi.",
+        correct: true,
       },
       {
         text: "Now there's two of them! Wow this is a long question.",
@@ -53,14 +54,7 @@ function App() {
   };
 
   const clearTimer = (e: Date) => {
-    // If you adjust it you should also need to
-    // adjust the Endtime formula we are about
-    // to code next
     setTimer("01:30");
-
-    // If you try to remove this line the
-    // updating of timer Variable will be
-    // after 1000ms or 1sec
     if (timerRef.current) clearInterval(timerRef.current);
     const id = setInterval(() => {
       startTimer(e);
@@ -70,9 +64,6 @@ function App() {
 
   const getDeadTime = () => {
     let deadline = new Date();
-
-    // This is where you need to adjust if
-    // you entend to add more time
     deadline.setSeconds(deadline.getSeconds() + 90);
     return deadline;
   };
