@@ -1,45 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const INIT_QUESTIONS = [
-  {
-    number: 1,
-    text: "What is the question?",
-    answers: [
-      {
-        text: "Hello there!",
-        status: "default",
-      },
-      {
-        text: "General Kenobi.",
-        correct: true,
-        status: "default",
-      },
-      {
-        text: "Now there's two of them! Wow this is a long question.",
-        status: "default",
-      },
-    ],
-  },
-  {
-    number: 2,
-    text: "What is the NEXT question?",
-    answers: [
-      {
-        text: "E equals M C Squared",
-        status: "default",
-      },
-      {
-        text: "Inertia is a property of matter.",
-        status: "default",
-      },
-      {
-        text: "Bill Nye The Science Guy.",
-        correct: true,
-        status: "default",
-      },
-    ],
-  },
-];
+type InitialState = {
+  gameStarted: boolean;
+  gameOver: boolean;
+  questionIndex: number;
+  score: number;
+  questions: {
+    answers: {
+      text: string;
+      correct?: boolean;
+    }[];
+  }[];
+};
 
 export const questionsSlice = createSlice({
   name: "questions",
@@ -48,14 +20,16 @@ export const questionsSlice = createSlice({
     gameOver: false,
     questionIndex: 0,
     score: 0,
-    questions: INIT_QUESTIONS,
+    questions: [],
   },
 
   reducers: {
+    setQuestions: (state, action) => {
+      state.questions = action.payload;
+    },
     setCurrentQuestion: (state) => {
       if (state.questionIndex + 1 === state.questions.length) {
         state.gameOver = true;
-        state.questions = INIT_QUESTIONS;
         state.questionIndex = 0;
       } else {
         state.questionIndex++;
@@ -68,11 +42,10 @@ export const questionsSlice = createSlice({
     },
     endGame: (state) => {
       state.gameOver = true;
-      state.questions = INIT_QUESTIONS;
       state.questionIndex = 0;
     },
     selectAnswer: (state, action: { payload: number }) => {
-      const question = state.questions[state.questionIndex];
+      const question: { answers: any[] } = state.questions[state.questionIndex];
       if (question.answers[action.payload].correct) {
         state.score += 1;
         question.answers = question.answers.map((ans) => {
@@ -111,7 +84,12 @@ export const questionsSlice = createSlice({
   },
 });
 
-export const { startGame, setCurrentQuestion, endGame, selectAnswer } =
-  questionsSlice.actions;
+export const {
+  startGame,
+  setCurrentQuestion,
+  endGame,
+  selectAnswer,
+  setQuestions,
+} = questionsSlice.actions;
 
 export default questionsSlice.reducer;
