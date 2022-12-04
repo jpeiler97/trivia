@@ -18,7 +18,6 @@
 .button:hover {
   background-color: #4e4e4e;
   color: #fff;
-  transform: translateX(20px);
   cursor: pointer;
 }
 
@@ -66,8 +65,27 @@
 .question-text {
   font-size: 16px;
 }
+
+.trivia-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.timer {
+  font-size: 30px;
+}
+
 .App {
   display: flex;
+  height: 100%;
+  width: 100%;
   justify-content: center;
+  align-items: center;
   font-family: "Roboto", sans-serif;
+  user-select: none;
+}
+
+.animated:hover {
+  transform: translateX(20px);
 }
