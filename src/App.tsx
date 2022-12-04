@@ -2,28 +2,14 @@ import { useRef, useState } from "react";
 import "./App.css";
 import Button from "./Components/button";
 import QuestionContainer from "./Components/questionContainer";
-
-const questions = [
-  {
-    number: 1,
-    text: "What is the question?",
-    answers: [
-      {
-        text: "Hello there!",
-      },
-      {
-        text: "General Kenobi.",
-        correct: true,
-      },
-      {
-        text: "Now there's two of them! Wow this is a long question.",
-      },
-    ],
-  },
-];
+import { useAppSelector, useAppDispatch } from "./hooks";
+import { endGame } from "./features/questions/slice";
 
 function App() {
   const [timer, setTimer] = useState("00:00");
+  const dispatch = useAppDispatch();
+  const questions = useAppSelector((state) => state.questions.questions);
+  const questionIdx = useAppSelector((state) => state.questions.questionIndex);
 
   const timerRef = useRef<NodeJS.Timer | null>(null);
 
@@ -50,10 +36,14 @@ function App() {
           ":" +
           (seconds > 9 ? seconds : "0" + seconds)
       );
+      if (total === 0) {
+        dispatch(endGame());
+      }
     }
   };
 
   const clearTimer = (e: Date) => {
+    console.log(e);
     setTimer("01:30");
     if (timerRef.current) clearInterval(timerRef.current);
     const id = setInterval(() => {
@@ -73,9 +63,7 @@ function App() {
       <div className="trivia-container">
         <Button label="Start" onClick={() => clearTimer(getDeadTime())} />
         <div className="timer">{timer}</div>
-        {questions.map((question) => {
-          return <QuestionContainer question={question} />;
-        })}
+        <QuestionContainer question={questions[questionIdx]} />
       </div>
     </div>
   );
