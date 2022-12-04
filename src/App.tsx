@@ -3,13 +3,13 @@ import "./App.css";
 import Button from "./Components/button";
 import QuestionContainer from "./Components/questionContainer";
 import { useAppSelector, useAppDispatch } from "./hooks";
-import { endGame } from "./features/questions/slice";
+import { startGame, endGame } from "./features/questions/slice";
 
 function App() {
   const [timer, setTimer] = useState("00:00");
   const dispatch = useAppDispatch();
-  const questions = useAppSelector((state) => state.questions.questions);
-  const questionIdx = useAppSelector((state) => state.questions.questionIndex);
+  const { questions, questionIndex, score, gameStarted, gameOver } =
+    useAppSelector((state) => state.questions);
 
   const timerRef = useRef<NodeJS.Timer | null>(null);
 
@@ -43,7 +43,7 @@ function App() {
   };
 
   const clearTimer = (e: Date) => {
-    console.log(e);
+    dispatch(startGame());
     setTimer("01:30");
     if (timerRef.current) clearInterval(timerRef.current);
     const id = setInterval(() => {
@@ -63,7 +63,18 @@ function App() {
       <div className="trivia-container">
         <Button label="Start" onClick={() => clearTimer(getDeadTime())} />
         <div className="timer">{timer}</div>
-        <QuestionContainer question={questions[questionIdx]} />
+        <div className="timer">
+          Score: {score}/{questions.length}
+        </div>
+        {gameStarted ? (
+          gameOver ? (
+            <div>Game over! Press start to play again!</div>
+          ) : (
+            <QuestionContainer question={questions[questionIndex]} />
+          )
+        ) : (
+          <div>Press the start button to begin!</div>
+        )}
       </div>
     </div>
   );

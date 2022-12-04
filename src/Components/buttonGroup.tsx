@@ -8,7 +8,6 @@ const ButtonGroup: React.FC<OptionsProps> = ({ options }) => {
   return (
     <div className="button-group">
       {options.map((btn, i) => {
-        console.log(i);
         return (
           <Button
             key={btn?.text + i}
